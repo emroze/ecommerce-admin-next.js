@@ -1,17 +1,28 @@
 "use client";
 import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+
 
 export default function New() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [goToProduct,setGoToProduct] = useState(false);
+  const router = useRouter();
 
-  function createProduct(ev) {
-    ev.preventDefault()
+  async function createProduct(ev) {
+    ev.preventDefault();
+    const data = {title, description, price};
+    await axios.post('/api/products', data);
+    setGoToProduct(true);
+  }
+  if(goToProduct) {
+    router.push('/products');
   }
   return (
     <div className="">
-      <form onSubmit={ev => createProduct(ev)} className="flex flex-col">
+      <form onSubmit={createProduct} className="flex flex-col">
         <h1>New Products</h1>
         <label>Product Name</label>
         <input
