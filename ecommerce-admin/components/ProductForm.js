@@ -1,23 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Image from 'next/image';
+import Spinner from "./spinner";
+import { ReactSortable } from "react-sortablejs";
+import {v4 as uuidv4} from 'uuid';
 
 export default function ProductForm({
   _id,
   title: existingTitle,
   description: existingDescription,
   price: existingPrice,
-  images,
+  images: existingImages,
+  category: assignedCategory,
+  properties:assignedProperties,
 }) {
   const [title, setTitle] = useState(existingTitle || "");
   const [description, setDescription] = useState(existingDescription || "");
   const [price, setPrice] = useState(existingPrice || "");
+  const [images,setImages] = useState(existingImages || []);
   const [goToProduct, setGoToProduct] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [category,setCategory] = useState(assignedCategory);
+  const [productProperties,setProductProperties] = useState(assignedProperties || {});
   const router = useRouter();
-  console.log(_id);
+
+  useEffect(()=>{
+    axios.get('/api/categories').then(result => {
+      setCategories(result.data);
+    })
+  },[])
+
   async function createProduct(ev) {
     ev.preventDefault();
-    const data = { title, description, price };
+    const data = { title, description, price, images, category, properties:productProperties};
     if (_id) {
       //Update
       await axios.put("/api/products", { ...data, _id });
@@ -34,27 +51,50 @@ export default function ProductForm({
 
   async function uploadImages(ev) {
     const files = ev.target?.files;
-    console.log(files[0]);
+    // console.log(files[0]);
     if (files?.length > 0) {
+      setIsUploading(true);
       const data = new FormData();
       for (const file of files) {
         data.append("file", file);
-        // console.log("inside", file);
       }
-      // data.append("file", files[0]);
-      // const response = await axios.post("/api/upload", data, {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      // });
 
-      const response = await fetch('/api/upload',{
-        method: "POST",
-        body: data,
+      const response = await axios.post("/api/upload", data);
+      console.log(response.data);
+      setImages(oldImages => {
+        return [...oldImages, ...response.data.links]
       })
-      console.log(response);
+      setIsUploading(false);
     }
   }
+
+  function updateImagesOrder(images){
+    setImages(images)
+  }
+
+  function setProductProp(propName,value){
+    setProductProperties(prev => {
+      const newProductProps = {...prev};
+      newProductProps[propName] = value;
+      return newProductProps;
+      
+    })
+    console.log(propertiesToFIll)
+  }
+
+  const propertiesToFIll = [];
+  if(categories.length > 0 && category){
+    let catInfo = categories.find(({_id}) => _id===category);
+    console.log(catInfo);
+    (catInfo && propertiesToFIll.push(...catInfo?.properties));
+    while(catInfo?.parent?._id){
+      const parentCat = categories.find(({_id}) => _id===catInfo?.parent?._id);
+      (parentCat && propertiesToFIll.push(...parentCat.properties));
+      catInfo = parentCat;
+    }
+  }
+  
+
   return (
     <div className="">
       <form onSubmit={createProduct} className="flex flex-col">
@@ -65,9 +105,51 @@ export default function ProductForm({
           value={title}
           onChange={(ev) => setTitle(ev.target.value)}
         />
+        <label>Category</label>
+        <select 
+        value={category}
+        onChange={ev => setCategory(ev.target.value)}
+        >
+          <option value="">Uncategorized</option>
+          {categories.length >0 && categories.map(c => (
+            <option value={c._id}>{c.name}</option>
+          ))}
+        </select>
+        {propertiesToFIll.length > 0  && propertiesToFIll.map(p => (
+          <div key={uuidv4()} className="flex gap-1 ">
+            <div>{p.name}</div>
+            <select 
+              value={productProperties[p.name]}
+              onChange={ev => setProductProp(p.name,ev.target.value)}>
+                {p.values.map(v => (
+                  <option value={v}>{v}</option>
+                ))}
+            </select>
+          </div>
+        )
+        )
+        
+        }
         <label>Photos</label>
-        <div className="mb-2">
-          <label className="w-32 h-32 cursor-pointer flex justify-center items-center gap-1 rounded-lg bg-slate-300 hover:bg-slate-400 hover:text-lg">
+        <div className="mb-2 flex flex-wrap gap-1 items-center">
+          <ReactSortable 
+            list={images} 
+            className="flex flex-wrap gap-1"
+            setList={updateImagesOrder}>
+            {!!images?.length > 0 && images.map(link => (
+              <div key={link} className="h-24">
+                <img src={link} className="rounded-lg" alt='picture of the products'/>
+              </div>
+            ))}
+          </ReactSortable>
+
+          {isUploading && (
+            <div className="h-24 w-14 p-1 bg-slate-300 flex justify-center items-center">
+              <Spinner/>
+            </div>
+          )}
+
+          <label className="w-24 h-24 cursor-pointer flex justify-center items-center gap-1 rounded-lg bg-slate-300 hover:bg-slate-400 hover:text-lg">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

@@ -2,6 +2,7 @@
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import {v4 as uuidv4} from 'uuid'
 
 export default function products(){
     const [products, setProducts] = useState([]);
@@ -12,7 +13,7 @@ export default function products(){
             
         })
     }, [])
-    console.log(products)
+    // console.log(products)
     return (
         <div>
             <Link className="bg-slate-800 text-white py-1 px-2 rounded-md" href="/products/new">Add new products</Link>
@@ -26,7 +27,7 @@ export default function products(){
                 <tbody>
                     {
                         products.map(product => (
-                            <tr>
+                            <tr key={uuidv4()}>
                                 <td>{product.title}</td>
                                 <td>
                                     <Link href={'/products/edit/'+product._id}>

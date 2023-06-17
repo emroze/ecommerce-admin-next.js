@@ -46,6 +46,6 @@ export async function POST(request){
     } catch(e) {
         return NextResponse.json("Failed")
     }
-    console.log(links)
+    // console.log(links)
     return NextResponse.json({links},{status:200})
 }
