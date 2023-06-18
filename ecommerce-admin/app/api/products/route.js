@@ -1,12 +1,14 @@
 import { Product } from '@/models/product';
 import { mongooseConnect } from '@/lib/mongoose';
 import {NextResponse} from 'next/server';
+import { isAdminRequest } from '../auth/[...nextauth]/route';
 
 
 export async function POST(request){
     const data  = await request.json();
     const {title, description, price, images, category, properties} = data;
     await mongooseConnect();
+    await isAdminRequest();
     const productDoc = await Product.create({
         title:title,
         description:description,
@@ -21,6 +23,7 @@ export async function POST(request){
 
 export async function GET(request){
     await mongooseConnect();
+    await isAdminRequest();
     const id = request.nextUrl.searchParams?.get('id');
     if(id){
         return NextResponse.json(await Product.findOne({_id:id}))
@@ -32,6 +35,7 @@ export async function GET(request){
 
 export async function PUT(request) {
     await mongooseConnect();
+    await isAdminRequest();
     const {_id,title,description,price,images,category,properties} = await request.json();
     await Product.updateOne({_id},{title,description,price,images,category,properties});
     return NextResponse.json(true);
@@ -39,6 +43,7 @@ export async function PUT(request) {
 
 export async function DELETE(request) {
     await mongooseConnect();
+    await isAdminRequest();
     const id = request.nextUrl.searchParams?.get('id');
     await Product.deleteOne({_id:id});
     return NextResponse.json(true);

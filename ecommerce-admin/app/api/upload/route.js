@@ -2,11 +2,13 @@ import fs from "fs"
 import { NextResponse } from "next/server";
 import {v4 as uuidv4} from 'uuid'
 import {PutObjectCommand, S3Client} from '@aws-sdk/client-s3'
+import { mongooseConnect } from "@/lib/mongoose";
 const bucketName = process.env.S3_BUCKET_NAME
 
 export async function POST(request){
     const formData = await request.formData();
-
+    await mongooseConnect();
+    await isAdminRequest();
     const client = new S3Client({
         region: 'ap-southeast-1',
         credentials: {
