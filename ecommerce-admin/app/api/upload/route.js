@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import {v4 as uuidv4} from 'uuid'
 import {PutObjectCommand, S3Client} from '@aws-sdk/client-s3'
 import { mongooseConnect } from "@/lib/mongoose";
+import { isAdminRequest } from "../auth/[...nextauth]/route";
 const bucketName = process.env.S3_BUCKET_NAME
 
 export async function POST(request){
