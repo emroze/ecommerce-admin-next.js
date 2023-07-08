@@ -3,6 +3,6 @@ import { Order } from "@/models/order";
 import { NextResponse } from "next/server";
 
 export async function GET(request){
-    await mongooseConnect;
+    await mongooseConnect();
     return NextResponse.json(await Order.find().sort({createdAt:-1}));
 }
