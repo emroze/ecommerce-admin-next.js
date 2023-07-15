@@ -1,4 +1,5 @@
 "use client"
+import Spinner from "@/components/spinner";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -6,11 +7,13 @@ import {v4 as uuidv4} from 'uuid'
 
 export default function products(){
     const [products, setProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        setIsLoading(true)
         axios.get('/api/products').then(response => {
             setProducts(response.data);
-            
+            setIsLoading(false)
         })
     }, [])
     // console.log(products)
@@ -25,6 +28,15 @@ export default function products(){
                     </tr>
                 </thead>
                 <tbody>
+                    {isLoading &&(
+                        <tr>
+                        <td colSpan={2}>
+                            <div className="p-4">
+                                <Spinner fullwidth={1}/>
+                            </div>
+                        </td>
+                    </tr>
+                    )}
                     {
                         products.map(product => (
                             <tr key={uuidv4()}>

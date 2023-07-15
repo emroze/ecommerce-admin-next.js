@@ -1,4 +1,5 @@
 import './globals.css'
+import './stats.css'
 import { Inter } from 'next/font/google'
 import Providers from '@/components/providers'
 import LogAuthPage from '@/components/logAuthPage'

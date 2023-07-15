@@ -3,6 +3,7 @@ import {v4 as uuidv4} from 'uuid'
 import axios from "axios";
 import { withSwal } from 'react-sweetalert2';
 import { useEffect, useState } from "react";
+import Spinner from '@/components/spinner';
 
 function Categories({swal}){
     const [editedCategory, setEditedCategory] = useState(null);
@@ -10,15 +11,17 @@ function Categories({swal}){
     const [parentCategory,setParentCategory] = useState('');
     const [categories, setCategories] = useState([]);
     const [properties, setProperties] = useState([]);
-
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         fetchCategories();
     },[])
 
     function fetchCategories(){
+        setIsLoading(true);
         axios.get('/api/categories').then(result => {
-            setCategories(result.data)
+            setCategories(result.data);
+            setIsLoading(false);
         })
     }
 
@@ -191,6 +194,15 @@ function Categories({swal}){
                     </tr>
                 </thead>
                 <tbody>
+                    {isLoading && (
+                        <tr>
+                            <td colSpan={3}>
+                                <div>
+                                    <Spinner fullwidth={1}/>
+                                </div>
+                            </td>
+                        </tr>
+                    )}
                     {categories.length > 0 && categories.map(category => (
                             <tr key={uuidv4()}>
                                 <td>{category.name}</td>

@@ -1,13 +1,16 @@
 "use client"
+import Spinner from "@/components/spinner";
 import axios from "axios"
 import { useEffect, useState } from "react"
 
 export default function OrdersPage(){
     const [orders, setOrders] = useState([]);
-    
+    const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
+        setIsLoading(true);
         axios.get('api/orders').then(response => {
-            setOrders(response.data)
+            setOrders(response.data);
+            setIsLoading(false);
         })
     },[])
     return (
@@ -23,6 +26,15 @@ export default function OrdersPage(){
                     </tr>
                 </thead>
                 <tbody>
+                    {isLoading && (
+                        <tr >
+                        <td colSpan={4}>
+                            <div className="py-4">
+                                <Spinner fullwidth={1}/>
+                            </div>
+                        </td>                           
+                        </tr>
+                    )}
                     {orders.length>0 && orders.map(order => (
                         <tr>
                             <td>{(new Date(order.createdAt)).toLocaleString()}</td>

@@ -19,6 +19,7 @@
     "aws-crt": "^1.15.17",
     "axios": "^1.4.0",
     "bson-ext": "^4.0.3",
+    "date-fns": "^2.30.0",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
     "formidable": "^2.1.1",

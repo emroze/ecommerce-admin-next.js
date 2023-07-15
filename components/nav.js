@@ -6,7 +6,7 @@ import Logo from "./logo";
 export default function Nav({show,toogleNavBar}) {
   const inactiveLink = "flex items-center gap-1 pl-1 hover:bg-highlight hover:rounded-sm "
   const activeLink = inactiveLink + "bg-highlight text-black rounded-sm "
-  const inactiveIcon = 'w-5 h-5'
+  const inactiveIcon = 'h-5 w-5'
   const activeIcon = inactiveIcon + " text-primary "
   const pathName = usePathname();
   const router = useRouter();
@@ -77,9 +77,16 @@ export default function Nav({show,toogleNavBar}) {
       </svg>
         Orders
       </Link>
+      <Link onClick={toogleNavBar} href={'/admins'} className={toogleNavOptionView(pathName,'/admins')}>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+      className={toogleIconView(pathName,'/admins')}>
+        <path d="M4.5 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM14.25 8.625a3.375 3.375 0 116.75 0 3.375 3.375 0 01-6.75 0zM1.5 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM17.25 19.128l-.001.144a2.25 2.25 0 01-.233.96 10.088 10.088 0 005.06-1.01.75.75 0 00.42-.643 4.875 4.875 0 00-6.957-4.611 8.586 8.586 0 011.71 5.157v.003z" />
+      </svg>
+        Admins
+      </Link>
       <Link onClick={toogleNavBar} href={'/settings'} className={toogleNavOptionView(pathName,'/settings')}>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" 
-      className={toogleIconView(pathName,'/settings')}>
+      className={toogleIconView(pathName,'/settings')+' h-4'}>
         <path fillRule="evenodd" d="M7.84 1.804A1 1 0 018.82 1h2.36a1 1 0 01.98.804l.331 1.652a6.993 6.993 0 011.929 1.115l1.598-.54a1 1 0 011.186.447l1.18 2.044a1 1 0 01-.205 1.251l-1.267 1.113a7.047 7.047 0 010 2.228l1.267 1.113a1 1 0 01.206 1.25l-1.18 2.045a1 1 0 01-1.187.447l-1.598-.54a6.993 6.993 0 01-1.929 1.115l-.33 1.652a1 1 0 01-.98.804H8.82a1 1 0 01-.98-.804l-.331-1.652a6.993 6.993 0 01-1.929-1.115l-1.598.54a1 1 0 01-1.186-.447l-1.18-2.044a1 1 0 01.205-1.251l1.267-1.114a7.05 7.05 0 010-2.227L1.821 7.773a1 1 0 01-.206-1.25l1.18-2.045a1 1 0 011.187-.447l1.598.54A6.993 6.993 0 017.51 3.456l.33-1.652zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
       </svg>
       Settings
