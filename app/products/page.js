@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import {v4 as uuidv4} from 'uuid'
 
-export default function products(){
+export default function ProductsPage(){
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 

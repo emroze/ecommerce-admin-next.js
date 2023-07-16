@@ -119,7 +119,7 @@ export default function ProductForm({
           >
             <option value="">Uncategorized</option>
             {categories.length >0 && categories.map(c => (
-              <option value={c._id}>{c.name}</option>
+              <option key={c._id} value={c._id}>{c.name}</option>
             ))}
           </select>
         {categoriesLoading && (
@@ -133,7 +133,7 @@ export default function ProductForm({
               value={productProperties[p.name]}
               onChange={ev => setProductProp(p.name,ev.target.value)}>
                 {p.values.map(v => (
-                  <option value={v}>{v}</option>
+                  <option key={uuidv4()} value={v}>{v}</option>
                 ))}
             </select>
             </div>

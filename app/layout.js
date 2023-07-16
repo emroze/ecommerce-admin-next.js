@@ -17,7 +17,9 @@ export default function RootLayout({ children }) {
       <body className={inter?.className}>
       {/* <body> */}
         <Providers>
-          <LogAuthPage children = {children}/>
+          <LogAuthPage>
+            {children}
+          </LogAuthPage>
         </Providers>
       </body>
     </html>
