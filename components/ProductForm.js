@@ -106,6 +106,7 @@ export default function ProductForm({
           type="text"
           placeholder="product name"
           value={title}
+          required
           onChange={(ev) => setTitle(ev.target.value)}
         />
         
@@ -113,6 +114,7 @@ export default function ProductForm({
           <select 
           className="transition ease-in-out delay-150"
           value={category}
+          required
           onChange={ev => setCategory(ev.target.value)}
           >
             <option value="">Uncategorized</option>
@@ -184,6 +186,7 @@ export default function ProductForm({
           type="text"
           placeholder="description"
           value={description}
+          required
           onChange={(ev) => setDescription(ev.target.value)}
         />
         <label>Price</label>
@@ -191,6 +194,7 @@ export default function ProductForm({
           type="number"
           placeholder="Price"
           value={price}
+          required
           onChange={(ev) => setPrice(ev.target.value)}
         />
         <button type="submit" className="btn-primary">
