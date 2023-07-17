@@ -10,7 +10,7 @@
 
 Link: https://ecommerce-admin-next-js.vercel.app/
 
-[N.B.This site can modify the add database. So I restricted it's access. If you wanna see, knock me. I will add viewer option soon]
+[N.B.This site can modify the database and add images to the S3. So I restricted it's access. If you wanna see, knock me. I will add viewer option soon]
 
 ## How the website looks
 
