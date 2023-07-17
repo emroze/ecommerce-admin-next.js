@@ -10,6 +10,8 @@
 
 Link: https://ecommerce-admin-next-js.vercel.app/
 
+[N.B.This site can modify the add database. So I restricted it's access. If you wanna see, knock me. I will add viewer option soon]
+
 ## How the website looks
 
 |   Desktop Mode<br />![1689623224827](image/README/1689623224827.png)   |
