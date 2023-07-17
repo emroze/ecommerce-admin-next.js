@@ -14,9 +14,9 @@ Link: https://ecommerce-admin-next-js.vercel.app/
 
 ## How the website looks
 
-|   Desktop Mode<br />![1689623224827](image/README/1689623224827.png)   |
-| :-------------------------------------------------------------------: |
-| In smaller device<br />![1689623258538](image/README/1689623258538.png) |
+|      Desktop Mode<br />![1689623224827](image/README/1689623224827.png)      |
+| :-------------------------------------------------------------------------: |
+| **Mobile device**<br />![1689623258538](image/README/1689623258538.png) |
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
