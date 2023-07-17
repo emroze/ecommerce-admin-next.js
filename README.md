@@ -3,7 +3,7 @@
 * Next.js 13
 * TailwindCSS
 * NextAuth
-* Amazon S3
+* AWS S3
 * MongoDB
 
 ## Live Website
